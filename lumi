@@ -7,67 +7,53 @@
 ##        Ex. affiche: 1.0
 
 # Créer les variables
-    # ecran : output actif (le script ne marche que s'il n'y a qu'un seul écran actif)
-        ecran=$(xrandr|grep ' connected '|awk '{print $1}')
-    # lumi : valeur de la luminosité actuelle
-        lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
-    
-    # Si il n'y a pas d'argument à la commande,
-    if [ -z "$1" ]; then
-            
-            # alors on affiche les options et on donne le choix
-            echo -e "\tEcran trouvé :" $ecran", luminosité actuelle :" $lumi
-                
-            read -p $'\t'"Baisser luminosité (-/--), augmenter luminosité (+/++),"$'\n\t'"ou taper une valeur (ex. 0.7) : " choix
+# ecran : output actif (le script ne marche que s'il n'y a qu'un seul écran actif)
+  ecran=$(xrandr|grep ' connected '|awk '{print $1}')
+# lumi : valeur de la luminosité actuelle
+  lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
 
-    else
-            # S'il y a un argument à la commande, celui-ci correspond au "choix"
-            choix=$1
-            
-    fi
+# Si il n'y a pas d'argument à la commande,
+if [ -z "$1" ]; then
+  # alors on affiche les options et on donne le choix
+  echo -e "\tEcran trouvé :" $ecran", luminosité actuelle :" $lumi
+  read -p $'\t'"Baisser luminosité (-/--), augmenter luminosité (+/++),"$'\n\t'"ou taper une valeur (ex. 0.7) : " choix
+else
+  # S'il y a un argument à la commande, celui-ci correspond au "choix"
+  choix=$1
+fi
 
-                if [ "$choix" = "-" ]; then
-                
-                    # BAISSER LA LUMINOSITE de 0.1
-                        # Faire la commande xrandr en utilisant les variables existantes
-                            xrandr --output $ecran --brightness $(echo $lumi -.1 | bc -l)
-                        # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
-                            lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
-                        echo -e "\tLa luminosité de $ecran est baissée à" $lumi"."
-
-                elif [ "$choix" = "--" ]; then
-                
-                # BAISSER LA LUMINOSITE de 0.2
-                    # Faire la commande xrandr en utilisant les variables existantes
-                        xrandr --output $ecran --brightness $(echo $lumi -.2 | bc -l)
-                    # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
-                        lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
-                    echo -e "\tLa luminosité de $ecran est baissée à" $lumi"."
-                        
-                elif [ "$choix" = "+" ]; then
-                
-                    # AUGMENTER LA LUMINOSITE de 0.1
-                        # Faire la commande xrandr en utilisant les variables existantes
-                        xrandr --output $ecran --brightness $(echo $lumi +.1 | bc -l)
-                        # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
-                        lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
-                    echo -e "\tLa luminosité de $ecran est montée à" $lumi"."
-                
-                elif [ "$choix" = "++" ]; then
-                
-                    # AUGMENTER LA LUMINOSITE de 0.2
-                        # Faire la commande xrandr en utilisant les variables existantes
-                        xrandr --output $ecran --brightness $(echo $lumi +.2 | bc -l)
-                        # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
-                        lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
-                    echo -e "\tLa luminosité de $ecran est montée à" $lumi"."
-                        
-            elif [ "$choix" = "0" ]; then
-                        echo -e "\tSi on fait ça, CA VA ETRE TOUT NOIR !!\n\tLa luminosité de $ecran est restée à" $lumi". Du coup."
-                
-            else
-                xrandr --output $ecran --brightness $choix
-                lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
-                echo -e "\tLa luminosité de $ecran est maintenant de" $lumi"."
-                
-            fi
+if [ "$choix" = "-" ]; then
+  # BAISSER LA LUMINOSITE de 0.1
+  # Faire la commande xrandr en utilisant les variables existantes
+  xrandr --output $ecran --brightness $(echo $lumi -.1 | bc -l)
+  # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
+  lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
+  echo -e "\tLa luminosité de $ecran est baissée à" $lumi"."
+elif [ "$choix" = "--" ]; then
+  # BAISSER LA LUMINOSITE de 0.2
+  # Faire la commande xrandr en utilisant les variables existantes
+  xrandr --output $ecran --brightness $(echo $lumi -.2 | bc -l)
+  # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
+  lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
+  echo -e "\tLa luminosité de $ecran est baissée à" $lumi"."
+elif [ "$choix" = "+" ]; then
+  # AUGMENTER LA LUMINOSITE de 0.1
+  # Faire la commande xrandr en utilisant les variables existantes
+  xrandr --output $ecran --brightness $(echo $lumi +.1 | bc -l)
+  # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
+  lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
+  echo -e "\tLa luminosité de $ecran est montée à" $lumi"."
+elif [ "$choix" = "++" ]; then
+  # AUGMENTER LA LUMINOSITE de 0.2
+  # Faire la commande xrandr en utilisant les variables existantes
+  xrandr --output $ecran --brightness $(echo $lumi +.2 | bc -l)
+  # Rafraichir la valeur de lumi avec la nouvelle valeur de brightness
+  lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
+  echo -e "\tLa luminosité de $ecran est montée à" $lumi"."
+elif [ "$choix" = "0" ]; then
+  echo -e "\tSi on fait ça, CA VA ETRE TOUT NOIR !!\n\tLa luminosité de $ecran est restée à" $lumi". Du coup."
+else
+  xrandr --output $ecran --brightness $choix
+  lumi=$(xrandr --verbose |grep Brightness|awk '{print $2}')
+  echo -e "\tLa luminosité de $ecran est maintenant de" $lumi"."
+fi
