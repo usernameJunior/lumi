@@ -38,6 +38,8 @@
 
   Fait pour Linux.
   Testé sous Ubuntu 16, 20, 22 et Manjaro ; devrait marcher sur de nombreuses distributions tant que l'affichage est géré par Xorg.
+  
+  Ne va pas marcher s'il y a deux écrans branchés. Au mieux, le script agira sur un seul des deux.
 
 
 ## A Propos
